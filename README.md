@@ -123,13 +123,11 @@ Se evaluará la presentación y funcionamiento del proyecto, la capacidad de res
 El proyecto sera almacenado en un repositorio en GitHub segun la siguiente estructura de carpetas:
 
 
-1-requisitos: aqui se guarda la consigna del proyecto
+1-investigación: aqui se guarda toda la documemtación recolectada para el desarrollo del proyecto
 
-2-investigación: aqui se guarda toda la documemtación recolectada para el desarrollo del proyecto
+2-prototipos: Aqui se guarda el programa en python, la base de datos, y los documentos entregables.
 
-3-prototipos: Aqui se guarda el programa en python, la base de datos, y los documentos entregables.
-
-4-presentacion: Aqui se guarda el informe final del proyecto.
+3-presentacion: Aqui se guarda el informe final del proyecto.
 
 ## Licencia
 
