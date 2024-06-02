@@ -2,11 +2,11 @@
 <center><img src="./assets/visuales/logo caratula.png" width="1200"></center>         
 
 ## Profesores:  
-- Prof. Lisandro Lanfranco (Programacion)
+- Prof. Lisandro Lanfranco (Programación)
 
-- Prof. Martin Gerlero (Bases de Datos) 
+- Prof. Martín Gerlero (Bases de Datos) 
 
-- Prof. Pablo Figueroa (Etica y Deontologia Profesional)
+- Prof. Pablo Figueroa (Ética y Deontología Profesional)
 
 ## Alumnos:   
 

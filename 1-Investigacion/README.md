@@ -2,11 +2,11 @@
 <center><img src="./assets/visuales/logo caratula.png" width="1200"></center>         
 
 ## Profesores:  
-- Prof. Lisandro Lanfranco (Programacion)
+- Prof. Lisandro Lanfranco (Programación)
 
-- Prof. Martin Gerlero (Bases de Datos) 
+- Prof. Martín Gerlero (Bases de Datos) 
 
-- Prof. Pablo Figueroa (Etica y Deontologia Profesional)
+- Prof. Pablo Figueroa (Ética y Deontología Profesional)
 
 ## Alumnos:   
 
@@ -27,7 +27,7 @@
 
 Desarrollar una pequeña aplicación que demuestre la integración de conceptos de programación y bases de datos, y que aborde aspectos éticos y profesionales según la normativa vigente en la provincia de Córdoba.  
 
-## Contenido de la carpeta 1-Invetigacion:  
+## Contenido de la carpeta 1-Invetigación:  
 
 - Documentación referida al manejo del stack tecnológico a usar.  
 

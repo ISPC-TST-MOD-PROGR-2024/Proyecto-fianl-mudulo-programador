@@ -2,11 +2,11 @@
 <center><img src="./assets/visuales/logo caratula.png" width="1200"></center>         
 
 ## Profesores:  
-- Prof. Lisandro Lanfranco (Programacion)
+- Prof. Lisandro Lanfranco (Programación)
 
-- Prof. Martin Gerlero (Bases de Datos) 
+- Prof. Martín Gerlero (Bases de Datos) 
 
-- Prof. Pablo Figueroa (Etica y Deontologia Profesional)
+- Prof. Pablo Figueroa (Ética y Deontología Profesional)
 
 ## Alumnos:   
 
@@ -127,7 +127,7 @@ El proyecto sera almacenado en un repositorio en GitHub segun la siguiente estru
 
 2-prototipos: Aqui se guarda el programa en python, la base de datos, y los documentos entregables.
 
-3-presentacion: Aqui se guarda el informe final del proyecto.
+3-presentación: Aqui se guarda el informe final del proyecto.
 
 ## Licencia
 
