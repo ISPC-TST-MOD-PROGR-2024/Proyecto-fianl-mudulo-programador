@@ -4,11 +4,16 @@ class Menu:
     def __init__(self, db):
         self.db = db
 
-# ------------------------------------------------------------------------------------------------------------------
-# Metodo que muestra el menu en consola y espera el ingreso de un valor del menu para llamar al metodo correspondiente.
-# En caso de no haber coincidencia con ninguno, imprime un mensaje de error.
-# ------------------------------------------------------------------------------------------------------------------ 
+
     def ejecutar(self):
+        """
+# ----------------------------------------------------------------
+# Metodo que muestra el menu en consola y espera el ingreso de 
+# un valor del menu para # llamar al metodo correspondiente.
+# En caso de no haber coincidencia con ninguno, 
+# imprime un mensaje de error y aguarda nuevo ingreso.
+# ----------------------------------------------------------------
+        """        
         while True:
             self.mostrar_menu()
             opcion = input("Seleccione una opción: ")
@@ -38,9 +43,9 @@ class Menu:
 
     def mostrar_menu(self):
         """
-# ------------------------------------------------------------------------------------------------------------------
+# -----------------------------------
 # Despliega el menu de opciones
-# ------------------------------------------------------------------------------------------------------------------  
+# -----------------------------------
         """       
         print("\nMenú de opciones:")
         print("1. Ingresar Submenu Altas")
@@ -56,9 +61,11 @@ class Menu:
 
     def mostrar_altas(self):
         """
-        # ------------------------------------------------------------------------------------------------------------------
-        # Despliega el submenu de altas
-        # ------------------------------------------------------------------------------------------------------------------ 
+        # -----------------------------------------------------------------------------
+        # Despliega el submenu de altas, y aguarda el a eleccion de una opcion, 
+        # llamando al metodo correspondiente.
+        # En caso de opcion incorrecta imprime mensaje de error y regresa al menu principal. 
+        # -----------------------------------------------------------------------------
         """
         print("\nSubMenú de Altas:")
         print("1. Alta Maquina")
@@ -88,10 +95,15 @@ class Menu:
         else:
             print("Opción no válida. Por favor, seleccione nuevamente.")
 
-# ------------------------------------------------------------------------------------------------------------------
-# Despliega el submenu de bajas
-# ------------------------------------------------------------------------------------------------------------------ 
+
     def mostrar_bajas(self):
+        """
+        # -----------------------------------------------------------------------------
+        # Despliega el submenu de bajas, y aguarda el a eleccion de una opcion, 
+        # llamando al metodo correspondiente.
+        # En caso de opcion incorrecta imprime mensaje de error y regresa al menu principal. 
+        # -----------------------------------------------------------------------------
+        """        
         print("\nSubMenú de Altas:")
         print("1. Baja Maquina")
         print("2. Baja Actividad")
@@ -122,79 +134,163 @@ class Menu:
 
 
 # ------------------------------------------------------------------------------------------------------------------
-# Esta opción permitirá al usuario programar una actividad para una maquina.      
+# Aqui comienza el codigo con los metodos para hacer las consultas sobre y hacia la base de datos:
+# alta_maquina()
+# alta_actividad()
+# alta_operario()
+# alta_repuesto()
+# alta_consumible()
+# alta_proveedor()
+# baja_maquina()
+# baja_actividad()
+# baja_operario()
+# baja_repuesto()
+# baja_consumible()
+# baja_proveedor()  
+# programar_actividad()
+# historial_maquina()
+# historial_operario()
+# informe_almacen()
+# carga_horas_diarias()
+# ver_estadisticas_uso()
+# salir()    
 # ------------------------------------------------------------------------------------------------------------------ 
-    def programar_actividad(self): 
-        print("Esta opción permitirá al usuario ingresar los detalles de un nuevo trabajo de impresión 3D.")
+    def alta_maquina(self):
+        print("poner consulta para agregar maquina")
 
-# ------------------------------------------------------------------------------------------------------------------
-# Aquí el usuario podrá consultar las actividades realizadas por y sobre la maquina
-# ------------------------------------------------------------------------------------------------------------------ 
+    def alta_actividad(self):
+        print("poner consulta para agregar actividad")
+
+    def alta_operario(self):
+        print("poner consulta para agregar operario")
+
+    def alta_repuesto(self):
+        print("poner consulta para agregar repuesto")
+
+    def alta_consumible(self):
+        print("poner consulta para agregar consumible")
+
+    def alta_proveedor(self):
+        print("poner consulta para agregar proveedor")
+
+    def baja_maquina(self):
+        print("poner consulta para borrar maquina")
+
+    def baja_actividad(self):
+        print("poner consulta para borrar actividad")
+        
+    def baja_operario(self):
+        print("poner consulta para borrar operario")
+
+    def baja_repuesto(self):
+        print("poner consulta para borrar repuesto")
+
+    def baja_consumible(self):
+        print("poner consulta para borrar consumible")
+
+    def baja_proveedor(self):
+        print("poner consulta para borrar proveedor")
+
+    def programar_actividad(self):
+        """
+# ---------------------------------------------------------------------------------
+# Aquí el usuario podrá agregar actividades a la tabla Actividad
+# ---------------------------------------------------------------------------------         
+        """ 
+        print("poner consulta para agregar actividades a la tabla Actividad")
+
+
 
     def historial_maquina(self):
-        print("Aquí el usuario podrá consultar el presupuesto basado en la lista de materiales")
-        print("y el tiempo estimado de impresión.")
+        """
+# ---------------------------------------------------------------------------------
+# Aquí el usuario podrá consultar las actividades realizadas por y sobre la maquina
+# ---------------------------------------------------------------------------------         
+        """
+        print("generar consulta que traiga las actividades donde estuvo afectada la maquina")
+        
 
-# ------------------------------------------------------------------------------------------------------------------
-# Aquí el usuario podrá consultar las actividades realizadas por un usuario determinado
-# ------------------------------------------------------------------------------------------------------------------ 
+
     def historial_operario(self):
-        print("Muestra el estado actual del stock de materiales como filamentos, tuercas, tornillos, etc.")
+        """
+# ---------------------------------------------------------------------------------
+# Aquí el usuario podrá consultar las actividades realizadas por un operario 
+# ---------------------------------------------------------------------------------         
+        """        
+        print("generar consulta que traiga las actividades realizadas por el operario")
 
-# ------------------------------------------------------------------------------------------------------------------
-# Permite ver el stock del almacen y las cantidades discriminadas
-# en cantidad actual y cantidad critica      
-# ------------------------------------------------------------------------------------------------------------------ 
+
     def informe_almacen(self):
-        print("Permite ver el historial de trabajos realizados para un cliente específico y")
-        print("aplicar descuentos si es un cliente frecuente.")
-
-# ------------------------------------------------------------------------------------------------------------------
-# Esta opción permite al usuario cargar la cantidad de horas trabajadas por una maquina al finalizar
-# la jornada de trabajo.
-# ------------------------------------------------------------------------------------------------------------------ 
-    def carga_horas_diarias(self):  
-        print("Esta opción permite ingresar o actualizar la cantidad de stock de un ")
-        print("material específico.")
+        """
+# ---------------------------------------------------------------------------------
+# Aquí el usuario podrá consultar el stock del almacen discriminado en cantidad actual y
+# cantidad critica.
+# ---------------------------------------------------------------------------------         
+        """        
+        print("Generar consulta que muestre el stock de almacen y las cantidades limite")
+        
 
 
-# ------------------------------------------------------------------------------------------------------------------
-# Imprime las estadísticas generales de la flota
-# ------------------------------------------------------------------------------------------------------------------ 
-    def ver_estadisticas_uso(self): 
-        print("Estadísticas de uso de materiales:")
-        print("Devuelve las cantidades usadas de cada material")
-        print("tomando como referencia los trabajos finalizados")
+    def carga_horas_diarias(self):
+        """
+# ---------------------------------------------------------------------------------
+# Aquí el usuario cargara la cantidad de horas trabajadas por una maquina al finalizar
+# la jornada de trabajo. 
+# Este metodo arroja una alarma de actividad pendiente si se alcanza el limite de horas 
+# para dicha actividad.
+# ---------------------------------------------------------------------------------         
+        """          
+        print("Generar consulta para actualizar el contador de horas a una maquina determinada")
+        print("llamar al metodo alerta de mantenimiento")
 
 
-# ------------------------------------------------------------------------------------------------------------------
-# Imprime una alerta de mantenimiento para una maquina determinada. Se evalua al ingreso de las horas trabajadas.
-# ------------------------------------------------------------------------------------------------------------------ 
+
+    def ver_estadisticas_uso(self):
+        """
+# ---------------------------------------------------------------------------------
+# Esta consulta imprime estadisticas generales de la Flota
+# ---------------------------------------------------------------------------------         
+        """ 
+        print("generar una consulta para tirar estadisticas ")
+        
+
+
+ 
     def alerta_mantenimiento(self): 
-        print("Estadísticas de uso de materiales:")
+        """
+# -----------------------------------------------------------------
+# Imprime una alerta de mantenimiento para una maquina determinada. Se evalua al ingreso de las horas trabajadas.
+# -----------------------------------------------------------------        
+        """
+        print("consulta para generar una alerta de mantenimiento y/o actividad")
 
 
-# ------------------------------------------------------------------------------------------------------------------
-# Imprime una alerta de de cantidad critica de insumos, se evalua cada vez que cambia el stock de almacen
-# ------------------------------------------------------------------------------------------------------------------ 
-    def alerta_almacen(self): 
-        print("Estadísticas de uso de materiales:")
 
-# ------------------------------------------------------------------------------------------------------------------
-# Imprime Reporte semanal de compras para reponer almacen en estado critico.
-# ------------------------------------------------------------------------------------------------------------------ 
+    def alerta_almacen(self):
+        """
+# -----------------------------------------------------------------
+# Imprime una alerta de cantidad critica de insumos, se evalua cada vez que cambia el stock de almacen
+# -----------------------------------------------------------------     
+        """ 
+        print("Generar consulta para tirar alarma en caso de que stock < cantidad critica")
+
+ 
     def compra_semanal(self): 
-        print("Estadísticas de uso de materiales:")
+        """
+# -----------------------------------------------------------------
+# Imprime un reporte semanal de compras para reponer stock de almacen en estado critico.
+# -----------------------------------------------------------------     
+        """ 
+        print("Generar consulta que devuelva lista de compra para reponer stock")
 
 
-# ------------------------------------------------------------------------------------------------------------------
-#Finaliza la ejecución del programa.
-# ------------------------------------------------------------------------------------------------------------------ 
+
 
     def salir(self): 
+        """
+# -----------------------------------------------------------------
+# Imprime mensaje de despedida antes de salir del programa.
+# -----------------------------------------------------------------     
+        """ 
         print("Saliendo del programa...")
 
-
-
-#gestion_impresion = Menu() #creo una instacia de la clase 
-#gestion_impresion.ejecutar() #llamo al metodo ejecutar para mostrar el menu de opciones
