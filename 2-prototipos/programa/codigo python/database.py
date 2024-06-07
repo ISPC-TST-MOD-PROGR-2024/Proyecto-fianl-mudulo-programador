@@ -23,36 +23,36 @@ class Database:
     cerrar_conexion(self):
     Cierra la conexión a la base de datos y el cursor.
     """
-    def __init__(host, user, password, database):
+    def __init__(self, host, user, password, database):
         """
-        Inicializa la conexión a la base de datos MySQL.
-        Parámetros:
-        -----------
-        host : str
-        La dirección del host donde se encuentra la base de datos MySQL.
-        user : str
-        El nombre de usuario para la conexión a la base de datos. 
-        password : str
-        La contraseña para la conexión a la base de datos.
-        database : str
-        El nombre de la base de datos a la que se va a conectar. 
-        Excepciones:
-        ------------
-        Exception
-        Si la conexión a la base de datos falla, se imprime un mensaje de error. """
-    try:
-        midb = mysql.connector.connect(
-            host='localhost',
-            database='mydb',
-            user='root',
-            password='root'
+    Inicializa la conexión a la base de datos MySQL.
+    Parámetros:
+    -----------
+    host : str
+    La dirección del host donde se encuentra la base de datos MySQL.
+    user : str
+    El nombre de usuario para la conexión a la base de datos. 
+    password : str
+    La contraseña para la conexión a la base de datos.
+    database : str
+    El nombre de la base de datos a la que se va a conectar. 
+    Excepciones:
+    ------------
+    Exception
+    Si la conexión a la base de datos falla, se imprime un mensaje de error. """
+        try:
+            self.midb = mysql.connector.connect(
+            host=host,
+            user=user,
+            password=password,
+            database=database
             )
-        cursor = midb.cursor()
-        print("Conexión establecida exitosamente")
-    except:
-        print("Error: ", mysql.connector.Error)
-        midb = None
-        cursor = None
+            self.cursor = self.midb.cursor()
+            print("Conexión establecida exitosamente")
+        except:
+            print("Error: ", mysql.connector.Error)
+            self.midb = None
+            self.cursor = None
 
 
     #Metodos para obtener, insertar, actualizar y eliminar datos
@@ -89,6 +89,6 @@ class Database:
         self.midb.close()
 
 #Lineas para probar la conexion con el motor SQL. Dejar comentadas cuando se arma el programa complet
-FLota = Database('mydb','root','root')
-print(FLota)
-print("iiiuupiiii")
+#FLota = Database('mydb','root','root')
+#print(FLota)
+#print("iiiuupiiii")
