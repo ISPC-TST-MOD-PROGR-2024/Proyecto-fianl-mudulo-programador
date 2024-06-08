@@ -205,7 +205,24 @@ class Menu:
 
 
     def alta_operario(self):
-        print("poner consulta para agregar operario")
+        print("Seleccione categoria operario: ")
+        print("1. CHOFER")
+        print("2. MECANICO")
+
+        seleccion = input("Ingrese seleccion: ")
+        if seleccion == '1':
+            categoria = 'CHOFER'
+        elif seleccion == '2':
+            categoria = 'MECANICO'
+
+        nombre = input("Ingrese nombre de operario: ")
+        apellido = input("Ingrese apellido del operario: ")
+        esExterno = input("Si el operario no pertenece a la firma ingrese 'si' de lo contrario ingrese 'no' ")
+        
+        consulta = "insert into Operario  (nombre, apellido, categoria, esExterno) values(%s, %s, %s, %s)"
+        valores = (nombre, apellido, categoria, esExterno)
+        self.db.ejecutar_consulta(consulta, valores)
+        print("Actividad ingresada correctamente.")
         
 
     def alta_repuesto(self):
