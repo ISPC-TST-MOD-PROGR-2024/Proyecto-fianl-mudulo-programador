@@ -156,7 +156,30 @@ class Menu:
 # salir()    
 # ------------------------------------------------------------------------------------------------------------------ 
     def alta_maquina(self):
-        print("poner consulta para agregar maquina")
+        print("Para continuar debe seleccionar tipo de maquina:")
+        print("1. COSECHADORA")
+        print("2. TRACTOR")
+        print("3. CAMION")
+
+        seleccion = input("Ingrese seleccion: ")
+        if seleccion == '1':
+            tipo_maquina = 'COSECHADORA'
+        elif seleccion == '2':
+            tipo_maquina = 'TRACTOR'
+        elif seleccion == '3':
+            tipo_maquina = 'CAMION'
+
+        nombre = input("Ingrese nombre de la maquina: ")
+        chasis = input("Ingrese codigo de chasis: ")
+        motor = input("Ingrese codigo de motor: ")
+        modelo = input("Ingrese modelo año: ")
+        horas = input("Ingrese cantidad de horas de trabajo: ")
+
+        consulta = "insert into maquina (Tipo_maquina, Nombre, Chasis, Motor, Modelo, Horas_de_Trabajo) values(%s, %s, %s, %s, %s, %s)"
+        valores = (tipo_maquina, nombre, chasis, motor, modelo, horas)
+        self.db.ejecutar_consulta(consulta, valores)
+        print("Maquina ingresada correctamente.")
+        
 
     def alta_actividad(self):
         print("poner consulta para agregar actividad")
