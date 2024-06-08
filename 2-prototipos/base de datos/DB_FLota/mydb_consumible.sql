@@ -23,20 +23,18 @@ DROP TABLE IF EXISTS `consumible`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `consumible` (
-  `id_Consumible` int NOT NULL,
+  `id_Consumible` int NOT NULL AUTO_INCREMENT,
   `Descripcion` varchar(45) DEFAULT NULL,
   `Marca` varchar(45) DEFAULT NULL,
   `Alternativo` varchar(45) DEFAULT NULL,
   `Proveedor_id_Proveedor` int NOT NULL,
   `Almacen_id_Almacen` int NOT NULL,
   `Actividad_id_Actividad` int NOT NULL,
-  `Actividad_Maquina_id_Maquina` int NOT NULL,
-  `Actividad_Operario_Maquina_id_Maquina` int NOT NULL,
-  PRIMARY KEY (`id_Consumible`,`Proveedor_id_Proveedor`,`Almacen_id_Almacen`,`Actividad_id_Actividad`,`Actividad_Maquina_id_Maquina`,`Actividad_Operario_Maquina_id_Maquina`),
+  PRIMARY KEY (`id_Consumible`),
   KEY `fk_Consumible_Proveedor1_idx` (`Proveedor_id_Proveedor`),
   KEY `fk_Consumible_Almacen1_idx` (`Almacen_id_Almacen`),
-  KEY `fk_Consumible_Actividad1_idx` (`Actividad_id_Actividad`,`Actividad_Maquina_id_Maquina`,`Actividad_Operario_Maquina_id_Maquina`),
-  CONSTRAINT `fk_Consumible_Actividad1` FOREIGN KEY (`Actividad_id_Actividad`, `Actividad_Maquina_id_Maquina`, `Actividad_Operario_Maquina_id_Maquina`) REFERENCES `actividad` (`id_Actividad`, `Maquina_id_Maquina`, `Operario_Maquina_id_Maquina`),
+  KEY `fk_Consumible_Actividad1_idx` (`Actividad_id_Actividad`),
+  CONSTRAINT `fk_Consumible_Actividad1` FOREIGN KEY (`Actividad_id_Actividad`) REFERENCES `actividad` (`id_Actividad`),
   CONSTRAINT `fk_Consumible_Almacen1` FOREIGN KEY (`Almacen_id_Almacen`) REFERENCES `almacen` (`id_Almacen`),
   CONSTRAINT `fk_Consumible_Proveedor1` FOREIGN KEY (`Proveedor_id_Proveedor`) REFERENCES `proveedor` (`id_Proveedor`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
@@ -60,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-06-07 15:27:43
+-- Dump completed on 2024-06-08 15:02:56

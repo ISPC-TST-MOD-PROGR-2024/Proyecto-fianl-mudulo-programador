@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `maquina`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `maquina` (
-  `id_Maquina` int NOT NULL DEFAULT '0',
+  `id_Maquina` int NOT NULL AUTO_INCREMENT,
   `Tipo_maquina` varchar(45) NOT NULL DEFAULT 'generic',
   `Nombre` varchar(45) NOT NULL,
   `Chasis` varchar(45) DEFAULT NULL,
@@ -31,7 +31,7 @@ CREATE TABLE `maquina` (
   `Modelo` int DEFAULT NULL,
   `Horas_de_trabajo` int NOT NULL,
   PRIMARY KEY (`id_Maquina`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,6 +40,7 @@ CREATE TABLE `maquina` (
 
 LOCK TABLES `maquina` WRITE;
 /*!40000 ALTER TABLE `maquina` DISABLE KEYS */;
+INSERT INTO `maquina` VALUES (1,'cosechadora','cosechadora_MF34','H34AC89RT5741','Z4412-KJ7890TX',1992,100),(2,'cosechadora','cosechadora MF9790','B78FG45LM1234','P2345-JN5678LP',2017,550),(3,'TRACTOR','massey ferguson 7415','M12QR56ST8901','Q8901-VW2345XY',2018,845),(4,'COSECHADORA','Challenger 670','F67DC89GH6782','X1132-KL4532TS',2018,635);
 /*!40000 ALTER TABLE `maquina` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-06-07 15:27:42
+-- Dump completed on 2024-06-08 15:02:57

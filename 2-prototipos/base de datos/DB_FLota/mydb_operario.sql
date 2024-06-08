@@ -23,13 +23,12 @@ DROP TABLE IF EXISTS `operario`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `operario` (
-  `idOperario` int NOT NULL,
+  `idOperario` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) DEFAULT NULL,
   `apellido` varchar(45) DEFAULT NULL,
   `categoria` varchar(45) DEFAULT NULL,
   `esExterno` varchar(45) DEFAULT NULL,
-  `Maquina_id_Maquina` int NOT NULL,
-  PRIMARY KEY (`Maquina_id_Maquina`)
+  PRIMARY KEY (`idOperario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -51,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-06-07 15:27:43
+-- Dump completed on 2024-06-08 15:02:57

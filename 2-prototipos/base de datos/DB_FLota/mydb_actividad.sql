@@ -23,18 +23,18 @@ DROP TABLE IF EXISTS `actividad`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `actividad` (
-  `id_Actividad` int NOT NULL DEFAULT '0',
+  `id_Actividad` int NOT NULL AUTO_INCREMENT,
   `Tipo` varchar(45) DEFAULT NULL,
-  `Descripcion` varchar(45) DEFAULT NULL,
+  `Descripcion` varchar(60) DEFAULT NULL,
   `Lugar` varchar(45) DEFAULT NULL,
   `Limite_horas` int DEFAULT NULL,
   `Maquina_id_Maquina` int NOT NULL,
-  `Operario_Maquina_id_Maquina` int NOT NULL,
-  PRIMARY KEY (`id_Actividad`,`Maquina_id_Maquina`,`Operario_Maquina_id_Maquina`),
+  `Operario_idOperario` int NOT NULL,
+  PRIMARY KEY (`id_Actividad`),
   KEY `fk_Actividad_Maquina1_idx` (`Maquina_id_Maquina`),
-  KEY `fk_Actividad_Operario1_idx` (`Operario_Maquina_id_Maquina`),
+  KEY `fk_Actividad_Operario1_idx` (`Operario_idOperario`),
   CONSTRAINT `fk_Actividad_Maquina1` FOREIGN KEY (`Maquina_id_Maquina`) REFERENCES `maquina` (`id_Maquina`),
-  CONSTRAINT `fk_Actividad_Operario1` FOREIGN KEY (`Operario_Maquina_id_Maquina`) REFERENCES `operario` (`Maquina_id_Maquina`)
+  CONSTRAINT `fk_Actividad_Operario1` FOREIGN KEY (`Operario_idOperario`) REFERENCES `operario` (`idOperario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -56,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-06-07 15:27:41
+-- Dump completed on 2024-06-08 15:02:56
