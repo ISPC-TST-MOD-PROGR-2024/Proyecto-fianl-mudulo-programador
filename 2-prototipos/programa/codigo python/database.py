@@ -58,17 +58,6 @@ class Database:
     #Metodos para obtener, insertar, actualizar y eliminar datos
     def obtener_resultados(self, consulta, valores=None):
         """
-        Ejecuta una consulta SQL (INSERT, UPDATE, DELETE) en la base de datos. Parámetros:
-        -----------
-        consulta : str
-        La consulta SQL a ejecutar.
-        valores : tuple, opcional
-        Los valores que se deben insertar en la consulta SQL (por defecto None). """
-        self.cursor.execute(consulta, valores)
-        return self.cursor.fetchall()
-
-    def ejecutar_consulta(self, consulta, valores=None):
-        """
         Ejecuta una consulta SQL (SELECT) y retorna los resultados.
         Parámetros:
         -----------
@@ -80,6 +69,20 @@ class Database:
         list
         Una lista de tuplas con los resultados de la consulta.
         """
+        
+        self.cursor.execute(consulta, valores)
+        return self.cursor.fetchall()
+
+
+    def ejecutar_consulta(self, consulta, valores=None):
+        """
+        Ejecuta una consulta SQL (INSERT, UPDATE, DELETE) en la base de datos. Parámetros:
+        -----------
+        consulta : str
+        La consulta SQL a ejecutar.
+        valores : tuple, opcional
+        Los valores que se deben insertar en la consulta SQL (por defecto None). """
+        
         self.cursor.execute(consulta, valores)
         self.midb.commit()
 
