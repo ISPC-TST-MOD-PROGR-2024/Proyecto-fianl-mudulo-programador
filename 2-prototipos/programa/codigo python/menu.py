@@ -182,10 +182,31 @@ class Menu:
         
 
     def alta_actividad(self):
-        print("poner consulta para agregar actividad")
+        print("Seleccione tipo de actividad: ")
+        print("1. TRABAJO")
+        print("2. MANTENIMIENTO")
+
+        seleccion = input("Ingrese seleccion: ")
+        if seleccion == '1':
+            Tipo = 'TRABAJO'
+        elif seleccion == '2':
+            Tipo = 'MANTENIMIENTO'
+
+        descripcion = input("Ingrese la descripción de la actividad: ")
+        lugar = input("Ingrese el lugar de la actividad: ")
+        limite_horas = input("Si la actividad es 'mantenimiento', ingrese limite de horas: ")
+        id_maquina = input("Ingrese la maquina afectada a la actividad: ")
+        id_operario = input("Ingrese el operario afectado a la actividad: ")
+
+        consulta = "insert into actividad  (Tipo, Descripcion, Lugar, Limite_horas, Maquina_id_Maquina, Operario_idOperario) values(%s, %s, %s, %s, %s, %s)"
+        valores = (Tipo, descripcion, lugar, limite_horas, id_maquina, id_operario)
+        self.db.ejecutar_consulta(consulta, valores)
+        print("Actividad ingresada correctamente.")
+
 
     def alta_operario(self):
         print("poner consulta para agregar operario")
+        
 
     def alta_repuesto(self):
         print("poner consulta para agregar repuesto")
