@@ -319,7 +319,7 @@ class Menu:
             if confirmacion.lower() == 's':
                 consulta_eliminacion = "DELETE FROM maquina WHERE Tipo_maquina = %s AND Chasis = %s"
                 valores_eliminacion = (tipo_maquina, chasis)
-                self.db.ejecutar_consultas(consulta_eliminacion, valores_eliminacion)
+                self.db.ejecutar_consulta(consulta_eliminacion, valores_eliminacion)
                 print("Maquinaria eliminada correctamente.")
             else:
                 print("Operación cancelada.")
@@ -356,7 +356,7 @@ class Menu:
             if confirmacion.lower() == 's':
                 consulta_eliminacion = "DELETE FROM actividad WHERE Tipo = %s AND Descripcion = %s"
                 valores_eliminacion = (tipo_actividad, descripcion_actividad)
-                self.db.ejecutar_consultas(consulta_eliminacion, valores_eliminacion)
+                self.db.ejecutar_consulta(consulta_eliminacion, valores_eliminacion)
                 print("Actividad eliminada correctamente.")
             else:
                print("Operación cancelada.")
@@ -391,7 +391,7 @@ class Menu:
             if confirmacion.lower() == 's':
                 consulta_eliminacion = "DELETE FROM actividad WHERE Tipo = %s AND Descripcion = %s"
                 valores_eliminacion = (nombre, apellido)
-                self.db.ejecutar_consultas(consulta_eliminacion, valores_eliminacion)
+                self.db.ejecutar_consulta(consulta_eliminacion, valores_eliminacion)
                 print("Operario eliminado correctamente.")
             else:
                print("Operación cancelada.")
