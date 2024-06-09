@@ -157,6 +157,12 @@ class Menu:
 # ver_estadisticas_uso()
 # salir()    
 # ------------------------------------------------------------------------------------------------------------------ 
+
+
+
+
+##   FUNCIÓN PARA DAR DE ALTA UNA MAQUINARIA
+##
     def alta_maquina(self):
         print("Para continuar debe seleccionar tipo de maquina:")
         print("1. COSECHADORA")
@@ -181,8 +187,11 @@ class Menu:
         valores = (tipo_maquina, nombre, chasis, motor, modelo, horas)
         self.db.ejecutar_consulta(consulta, valores)
         print("Maquina ingresada correctamente.")
-        
 
+
+        
+##   FUNCIÓN PARA DAR DE ALTA UNA ACTIVIDAD
+##
     def alta_actividad(self):
         print("Seleccione tipo de actividad: ")
         print("1. TRABAJO")
@@ -206,6 +215,9 @@ class Menu:
         print("Actividad ingresada correctamente.")
 
 
+
+##   FUNCIÓN PARA DAR DE ALTA UN OPERARIO
+##
     def alta_operario(self):
         print("Seleccione categoria operario: ")
         print("1. CHOFER")
@@ -227,6 +239,9 @@ class Menu:
         print("Actividad ingresada correctamente.")
         
 
+
+## FUNCIÓN PARA DAR DE ALTA UN REPUESTO
+##
     def alta_repuesto(self):
         
         Descripcion = input("Ingrese descripción del repuesto: ")
@@ -241,6 +256,10 @@ class Menu:
         self.db.ejecutar_consulta(consulta, valores)
         print("Repuesto agregado exitosamente...")
 
+
+
+##   FUNCIÓN PARA DAR DE ALTA UN CONSUMIBLE
+##
     def alta_consumible(self):
         Descripcion = input("Ingrese descripción del consumible: ")
         Marca = input("Ingrese la marca del consumible original: ")
@@ -253,7 +272,11 @@ class Menu:
         valores = (Descripcion, Marca, Alternativo, id_activad,id_proveedor,id_almacen)
         self.db.ejecutar_consulta(consulta, valores)
         print("Consumible agregado exitosamente...")
-        
+
+
+
+##   FUNCIÓN PARA DAR DE ALTA UN PROVEEDOR
+##    
     def alta_proveedor(self):
         Nombre = input("Ingrese el nombre del proveedor: ")
         Direccion = input("Ingrese la dirección del proveedor: ")
@@ -265,6 +288,10 @@ class Menu:
         self.db.ejecutar_consulta(consulta, valores)
         print("Proveedor ingresado exitosamente...")
 
+
+
+##   FUNCIÓN PARA DAR DE BAJA UNA MAQUINARIA
+##        
     def baja_maquina(self):
         print("Para continuar debe seleccionar tipo de maquina a eliminar: ")
         print("1. COSECHADORA")
@@ -300,8 +327,12 @@ class Menu:
                 print("Operación cancelada.")
         else:
             print("No se encontró una maquinaria con el tipo y chasis proporcionados.")
-    
 
+
+
+
+##   FUNCIÓN PARA DAR DE BAJA UNA ACTIVIDAD
+##   
     def baja_actividad(self):
         print("Para continuar debe seleccionar tipo de actividad a eliminar: ")
         print("1. TRABAJO")
@@ -333,7 +364,12 @@ class Menu:
                print("Operación cancelada.")
         else:
             print("No se encontró una actividad con el tipo y descripción proporcionados.")
-            
+
+
+
+
+##   FUNCIÓN PARA DAR DE BAJA UN OPERARIO
+##
     def baja_operario(self):
         print("Para continuar debe seleccionar tipo de operario: ")
         print("1. CHOFER")
@@ -365,14 +401,105 @@ class Menu:
             print("No se encontró un operario con el nómbre y apellido proporcionados.")
         
 
-    def baja_repuesto(self):
-        print("poner consulta para borrar repuesto")
 
+
+##   FUNCIÓN PARA DAR DE BAJA UN REPUESTO
+##
+    def baja_repuestos(self):
+        consulta = "SELECT id_Repuesto, Descripcion, Marca, Alternativo FROM Repuesto"
+        resultados = self.db.obtener_resultados(consulta)
+        if resultados:
+            print("\nLista actual de repuestos disponibles: ")
+            for repuestos in resultados:
+                print(repuestos)
+        else:
+            print("No se encontraron repuestos en stock.")
+
+        eliminar = input("Seleccione el repuesto que desea eliminar segun su ID: ")
+        confirma_eliminar = input(f"Esta seguro que desea eliminar el repuesto: {eliminar}? (s/n)\n")
+        if  confirma_eliminar == 's':
+            consulta = "DELETE FROM Repuesto WHERE id_Repuesto = %s"
+            self.db.ejecutar_consulta(consulta, tuple(eliminar))
+            print("Repuesto eliminado. ")
+        elif confirma_eliminar == 'n':
+            print("Solicitud cancelada. ")
+        else: 
+            print("Por favor confirme correctamente la eliminación ingresando 's' o 'n' \n , intente nuevamente.")
+            
+
+        consulta = "SELECT id_Repuesto, Descripcion, Marca, Alternativo FROM Repuesto"
+        resultados = self.db.obtener_resultados(consulta)
+        print("\nLista actual de repuestos disponibles en stock: ")
+        for stock in resultados:
+            print(stock)
+
+
+
+
+##   FUNCIÓN PARA DAR DE BAJA UN CONSUMIBLE
+##         
     def baja_consumible(self):
-        print("poner consulta para borrar consumible")
+        consulta = "SELECT id_Consumible, Descripcion, Marca, Alternativo FROM Consumible"
+        resultados = self.db.obtener_resultados(consulta)
+        if resultados:
+            print("\nLista actual de consumibles disponibles: ")
+            for consum in resultados:
+                print(consum)
+        else:
+            print("No se encontraron consumibles disponibles en stock.")
 
+        eliminar = input("Seleccione el consumible que desea eliminar segun su ID: ")
+        confirma_eliminar = input(f"Esta seguro que desea eliminar el consumible: {eliminar}? (s/n)\n")
+        if  confirma_eliminar == 's':
+            consulta = "DELETE FROM Consumible WHERE id_Consumible = %s"
+            self.db.ejecutar_consulta(consulta, tuple(eliminar))
+            print("Consumible eliminado. ")
+        elif confirma_eliminar == 'n':
+            print("Solicitud cancelada. ")
+        else: 
+            print("Por favor confirme correctamente la eliminación ingresando 's' o 'n' \n , intente nuevamente.")
+            
+
+        consulta = "SELECT id_Consumible, Descripcion, Marca, Alternativo FROM Consumible"
+        resultados = self.db.obtener_resultados(consulta)
+        print("\nLista actual de consumibles disponibles en stock: ")
+        for stockcons in resultados:
+            print(stockcons)
+ 
+ 
+ 
+            
+##   FUNCIÓN PARA DAR DE BAJA UN PROVEEDOR
+##
     def baja_proveedor(self):
-        print("poner consulta para borrar proveedor")
+        print("A continuacion se detallara los proveedores activos: ")
+        consulta = "SELECT id_Proveedor, Nombre, Direccion FROM Proveedor"
+        resultados = self.db.obtener_resultados(consulta)
+        if resultados:
+            print("\nUltima lista vigente: ")
+            for provee in resultados:
+                print(provee)
+        else:
+            print("No se encontraron proveedores activos.")
+
+        eliminar = input("Seleccione el proveedor que desea eliminar segun su ID: ")
+        confirma_eliminar = input(f"Esta seguro que desea eliminar el proveedor: {eliminar}? (s/n)\n")
+        if  confirma_eliminar == 's':
+            consulta = "DELETE FROM Proveedor WHERE id_Proveedor = %s"
+            self.db.ejecutar_consulta(consulta, tuple(eliminar))
+            print("El proveedor fue eliminado.")
+        elif confirma_eliminar == 'n':
+            print("Solicitud cancelada. ")
+        else: 
+            print("Por favor confirme correctamente la eliminación ingresando 's' o 'n' \n , intente nuevamente.")
+            
+
+        consulta = "SELECT id_Proveedor, Nombre, Direccion FROM Proveedor"
+        resultados = self.db.obtener_resultados(consulta)
+        print("\nLista actual de proveedores activos: ")
+        for i in resultados:
+            print(i)
+ 
 
     def programar_actividad(self):
         """
