@@ -561,10 +561,27 @@ class Menu:
         """
 # ---------------------------------------------------------------------------------
 # Aquí el usuario podrá consultar las actividades realizadas por un operario 
-# ---------------------------------------------------------------------------------         
-        """        
-        print("generar consulta que traiga las actividades realizadas por el operario")
-
+# --------------------------------------------------------------------------------- 
+# """        
+        id_operario = input("Ingrese el ID del operario para consultar su historial: ")
+        consulta = """
+        SELECT a.Tipo, a.Descripcion, a.Lugar, a.Limite_horas, m.Nombre AS Maquina, o.nombre AS Operario, o.apellido
+        FROM actividad a
+        JOIN maquina m ON a.Maquina_id_Maquina = m.id_Maquina
+        JOIN Operario o ON a.Operario_idOperario = o.idOperario
+        WHERE o.idOperario = %s
+        """
+        valores = (id_operario,)
+        resultados = self.db.obtener_resultados(consulta, valores)
+        
+        if resultados:
+            print(f"\nHistorial de actividades para el operario ID {id_operario}:")
+            for actividad in resultados:
+                print(f"Tipo: {actividad['Tipo']}, Descripción: {actividad['Descripcion']}, Lugar: {actividad['Lugar']}, "
+                      f"Límite de horas: {actividad['Limite_horas']}, Máquina: {actividad['Maquina']}, "
+                      f"Operario: {actividad['Operario']} {actividad['apellido']}")
+        else:
+            print(f"No se encontraron actividades para el operario ID {id_operario}.")
 
     def informe_almacen(self):
         """
@@ -588,7 +605,28 @@ class Menu:
         """          
         print("Generar consulta para actualizar el contador de horas a una maquina determinada")
         print("llamar al metodo alerta de mantenimiento")
+        id_maquina = input("Ingrese el ID de la máquina: ")
+        horas_trabajadas = input("Ingrese la cantidad de horas trabajadas hoy: ")
 
+        # Actualizar las horas trabajadas de la máquina
+        consulta_actualizar = "UPDATE maquina SET Horas_de_Trabajo = Horas_de_Trabajo + %s WHERE id_Maquina = %s"
+        valores_actualizar = (horas_trabajadas, id_maquina)
+        self.db.ejecutar_consulta(consulta_actualizar, valores_actualizar)
+
+        # Verificar si se ha alcanzado el límite de horas para alguna actividad
+        consulta_actividad = """
+        SELECT a.Descripcion, a.Limite_horas, m.Horas_de_Trabajo 
+        FROM actividad a
+        JOIN maquina m ON a.Maquina_id_Maquina = m.id_Maquina
+        WHERE m.id_Maquina = %s AND a.Tipo = 'MANTENIMIENTO'
+        """
+        valores_actividad = (id_maquina,)
+        actividades = self.db.obtener_resultados(consulta_actividad, valores_actividad)
+
+        for actividad in actividades:
+            if actividad['Horas_de_Trabajo'] >= actividad['Limite_horas']:
+                print(f"¡Alerta! La actividad de mantenimiento '{actividad['Descripcion']}' ha alcanzado el límite de horas ({actividad['Limite_horas']}).")
+        
 
 
     def ver_estadisticas_uso(self):
