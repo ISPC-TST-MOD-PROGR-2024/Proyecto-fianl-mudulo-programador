@@ -502,13 +502,28 @@ class Menu:
  
 
     def programar_actividad(self):
-        """
-# ---------------------------------------------------------------------------------
-# Aquí el usuario podrá agregar actividades a la tabla Actividad
-# ---------------------------------------------------------------------------------         
-        """ 
-        print("poner consulta para agregar actividades a la tabla Actividad")
+        print("Seleccione tipo de actividad a programar:")
+        print("1. TRABAJO")
+        print("2. MANTENIMIENTO")
 
+        seleccion = input("Ingrese seleccion: ")
+        if seleccion == '1':
+            Tipo = 'TRABAJO'
+        elif seleccion == '2':
+            Tipo = 'MANTENIMIENTO'
+        else:
+            print("Selección inválida.")
+            return
+
+        descripcion = input("Ingrese la descripción de la actividad: ")
+        lugar = input("Ingrese el lugar de la actividad: ")
+        id_maquina = input("Ingrese la ID de la máquina afectada a la actividad: ")
+        id_operario = input("Ingrese la ID del operario afectado a la actividad: ")
+
+        consulta = "insert into actividad (Tipo, Descripcion, Lugar, Maquina_id_Maquina, Operario_idOperario) values(%s, %s, %s, %s, %s)"
+        valores = (Tipo, descripcion, lugar, id_maquina, id_operario)
+        self.db.ejecutar_consulta(consulta, valores)
+        print("Actividad programada correctamente.")
 
 
     def historial_maquina(self):
@@ -587,25 +602,37 @@ class Menu:
 
 
  
-    def alerta_mantenimiento(self): 
+    def alerta_mantenimiento(self, id_maquina):
+        consulta = """
+        SELECT a.Descripcion, a.Limite_horas, a.Lugar, m.Horas_de_Trabajo
+        FROM actividad a
+        JOIN maquina m ON a.Maquina_id_Maquina = m.id_Maquina
+        WHERE m.id_Maquina = %s AND a.Limite_horas IS NOT NULL
         """
-# -----------------------------------------------------------------
-# Imprime una alerta de mantenimiento para una maquina determinada. Se evalua al ingreso de las horas trabajadas.
-# -----------------------------------------------------------------        
-        """
-        print("consulta para generar una alerta de mantenimiento y/o actividad")
+        valores = (id_maquina)
+        resultados = self.db.obtener_resultados(consulta, valores)
 
+        for actividad in resultados:
+            if actividad[2] >= actividad[1]:
+                print(f"Alerta: La máquina {id_maquina} ha alcanzado el límite de horas para la actividad '{actividad[0]}'.")
 
 
     def alerta_almacen(self):
+        consulta = """
+        SELECT Descripcion, Cantidad_Actual, Cantidad_Critica
+        FROM Almacen
+        WHERE Cantidad_Actual < Cantidad_Critica
         """
-# -----------------------------------------------------------------
-# Imprime una alerta de cantidad critica de insumos, se evalua cada vez que cambia el stock de almacen
-# -----------------------------------------------------------------     
-        """ 
-        print("Generar consulta para tirar alarma en caso de que stock < cantidad critica")
+        resultados = self.db.obtener_resultados(consulta)
 
- 
+        if resultados:
+            print("Alerta: Insumos en cantidad crítica:")
+            for item in resultados:
+                print(f"{item[0]}: {item[1]} (Cantidad Crítica: {item[2]})")
+        else:
+            print("No hay insumos en cantidad crítica.")
+
+
     def compra_semanal(self): 
         """
 # -----------------------------------------------------------------
