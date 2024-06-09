@@ -1,4 +1,6 @@
 from database import Database
+import pandas as pd
+import numpy as np
 
 class Menu:
     def __init__(self, db):
@@ -264,36 +266,6 @@ class Menu:
         print("Proveedor ingresado exitosamente...")
 
     def baja_maquina(self):
-<<<<<<< HEAD
-
-        consulta = "SELECT id_maquina, Nombre, Chasis FROM maquina"
-        resultados = self.db.obtener_resultados(consulta)
-        if resultados:
-            print("\nLista actual de maquinas:")
-            for maquina in resultados:
-                print(maquina)
-        else:
-            print("No se encontraron máquinas en la base de datos.")
-
-        eliminar = input("Seleccione la maquina que desea eleminar segun su Id: ")
-        confirma_eliminar = input(f"Esta seguro que desea eliminar la maquina {eliminar}?: y/n\n")
-        if  confirma_eliminar == 'y':
-            consulta = "DELETE FROM maquina WHERE id_maquina = %s"
-            self.db.ejecutar_consulta(consulta, tuple(eliminar))
-            print("Maquina eliminada")
-        elif confirma_eliminar == 'n':
-            print("Acción cancelada")
-        else: 
-            print("Por favor confirme correctamente la eliminación ingresando 'y' o 'n' \n , acción cancelada!")
-            
-
-        consulta = "SELECT id_maquina, Nombre, Chasis FROM maquina"
-        resultados = self.db.obtener_resultados(consulta)
-        print("\nLista actual de maquinas:")
-        for maquina in resultados:
-            print(maquina)
-
-=======
         print("Para continuar debe seleccionar tipo de maquina a eliminar: ")
         print("1. COSECHADORA")
         print("2. TRACTOR")
@@ -322,14 +294,13 @@ class Menu:
             if confirmacion.lower() == 's':
                 consulta_eliminacion = "DELETE FROM maquina WHERE Tipo_maquina = %s AND Chasis = %s"
                 valores_eliminacion = (tipo_maquina, chasis)
-                self.db.obtener_resultados(consulta_eliminacion, valores_eliminacion)
+                self.db.ejecutar_consulta(consulta_eliminacion, valores_eliminacion)
                 print("Maquinaria eliminada correctamente.")
             else:
                 print("Operación cancelada.")
         else:
             print("No se encontró una maquinaria con el tipo y chasis proporcionados.")
     
->>>>>>> fb53d592a082a8b8315e2ae02ef01ddf49443a1d
 
     def baja_actividad(self):
         print("Para continuar debe seleccionar tipo de actividad a eliminar: ")
@@ -356,7 +327,7 @@ class Menu:
             if confirmacion.lower() == 's':
                 consulta_eliminacion = "DELETE FROM actividad WHERE Tipo = %s AND Descripcion = %s"
                 valores_eliminacion = (tipo_actividad, descripcion_actividad)
-                self.db.obtener_resultados(consulta_eliminacion, valores_eliminacion)
+                self.db.ejecutar_consulta(consulta_eliminacion, valores_eliminacion)
                 print("Actividad eliminada correctamente.")
             else:
                print("Operación cancelada.")
@@ -386,7 +357,7 @@ class Menu:
             if confirmacion.lower() == 's':
                 consulta_eliminacion = "DELETE FROM actividad WHERE Tipo = %s AND Descripcion = %s"
                 valores_eliminacion = (nombre, apellido)
-                self.db.obtener_resultados(consulta_eliminacion, valores_eliminacion)
+                self.db.ejecutar_consulta(consulta_eliminacion, valores_eliminacion)
                 print("Operario eliminado correctamente.")
             else:
                print("Operación cancelada.")
