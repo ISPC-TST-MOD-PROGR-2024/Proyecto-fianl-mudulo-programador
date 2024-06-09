@@ -235,7 +235,34 @@ class Menu:
         print("poner consulta para agregar proveedor")
 
     def baja_maquina(self):
-        print("poner consulta para borrar maquina")
+
+        consulta = "SELECT id_maquina, Nombre, Chasis FROM maquina"
+        resultados = self.db.obtener_resultados(consulta)
+        if resultados:
+            print("\nLista actual de maquinas:")
+            for maquina in resultados:
+                print(maquina)
+        else:
+            print("No se encontraron máquinas en la base de datos.")
+
+        eliminar = input("Seleccione la maquina que desea eleminar segun su Id: ")
+        confirma_eliminar = input(f"Esta seguro que desea eliminar la maquina {eliminar}?: y/n\n")
+        if  confirma_eliminar == 'y':
+            consulta = "DELETE FROM maquina WHERE id_maquina = %s"
+            self.db.ejecutar_consulta(consulta, tuple(eliminar))
+            print("Maquina eliminada")
+        elif confirma_eliminar == 'n':
+            print("Acción cancelada")
+        else: 
+            print("Por favor confirme correctamente la eliminación ingresando 'y' o 'n' \n , acción cancelada!")
+            
+
+        consulta = "SELECT id_maquina, Nombre, Chasis FROM maquina"
+        resultados = self.db.obtener_resultados(consulta)
+        print("\nLista actual de maquinas:")
+        for maquina in resultados:
+            print(maquina)
+
 
     def baja_actividad(self):
         print("poner consulta para borrar actividad")
