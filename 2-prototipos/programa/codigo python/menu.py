@@ -405,7 +405,7 @@ class Menu:
 
 ##   FUNCIÓN PARA DAR DE BAJA UN REPUESTO
 ##
-    def baja_repuestos(self):
+    def baja_repuesto(self):
         consulta = "SELECT id_Repuesto, Descripcion, Marca, Alternativo FROM Repuesto"
         resultados = self.db.obtener_resultados(consulta)
         if resultados:
@@ -517,8 +517,29 @@ class Menu:
 # Aquí el usuario podrá consultar las actividades realizadas por y sobre la maquina
 # ---------------------------------------------------------------------------------         
         """
-        print("generar consulta que traiga las actividades donde estuvo afectada la maquina")
+        print("A continuación se detalla lista de maquinas para mostrar su historial: ")
+        consulta = "SELECT id_maquina, Nombre, Chasis FROM maquina"
+        resultados = self.db.obtener_resultados(consulta)
+        if resultados:
+            print("\nLista actual de maquinas:")
+            for maquina in resultados:
+                print(maquina)
+        else:
+            print("No se encontraron máquinas en la base de datos.")
+
+        hist_id = input("Seleccione la maquina que desea consultar: ")
         
+        consulta = """SELECT M.id_Maquina, M.Nombre, M. Chasis, A.Tipo, A.Descripcion, O.Nombre, O.apellido 
+                    FROM maquina M, actividad A, operario O 
+                    WHERE M.id_Maquina = A.Maquina_id_Maquina AND O.idOperario = A.Operario_idOperario"""
+
+        resultados = self.db.obtener_resultados(consulta)
+        print("\nHistorial de Maquina:")
+        for i in resultados:
+            print(i)
+        #data = {'nombre': ['Juan', 'Maria', 'Pedro'], 
+        #'edad': [25, 30, 35]}
+        #df = pd.DataFrame(data)
 
 
     def historial_operario(self):
