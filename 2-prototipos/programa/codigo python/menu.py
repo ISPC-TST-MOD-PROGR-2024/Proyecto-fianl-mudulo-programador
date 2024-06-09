@@ -226,15 +226,45 @@ class Menu:
         
 
     def alta_repuesto(self):
-        print("poner consulta para agregar repuesto")
+        
+        Descripcion = input("Ingrese descripción del repuesto: ")
+        Marca = input("Ingrese la marca del repuesto original: ")
+        Alternativo = input("Ingrese la marca del repuesto alternativo: ")
+        id_activad = input("Ingrese la actividad a realizar: ")
+        id_proveedor = input("Ingrese el proveedor del repuesto: ")
+        id_almacen = input("Ingrese el codigo interno del almacen: ")
+        
+        consulta = "insert into Repuesto  (Descripcion, Marca, Alternativo, Actividad_id_Actividad, Proveedor_id_Proveedor, Almacen_id_Almacen) values(%s, %s, %s, %s,%s,%s)"
+        valores = (Descripcion, Marca, Alternativo, id_activad,id_proveedor,id_almacen)
+        self.db.ejecutar_consulta(consulta, valores)
+        print("Repuesto agregado exitosamente...")
 
     def alta_consumible(self):
-        print("poner consulta para agregar consumible")
-
+        Descripcion = input("Ingrese descripción del consumible: ")
+        Marca = input("Ingrese la marca del consumible original: ")
+        Alternativo = input("Ingrese la marca del consumible alternativo: ")
+        id_activad = input("Ingrese la actividad a realizar: ")
+        id_proveedor = input("Ingrese el proveedor del consumible: ")
+        id_almacen = input("Ingrese el codigo interno del almacen: ")
+        
+        consulta = "insert into Consumible (Descripcion, Marca, Alternativo, Actividad_id_Actividad, Proveedor_id_Proveedor, Almacen_id_Almacen) values(%s, %s, %s, %s,%s,%s)"
+        valores = (Descripcion, Marca, Alternativo, id_activad,id_proveedor,id_almacen)
+        self.db.ejecutar_consulta(consulta, valores)
+        print("Consumible agregado exitosamente...")
+        
     def alta_proveedor(self):
-        print("poner consulta para agregar proveedor")
+        Nombre = input("Ingrese el nombre del proveedor: ")
+        Direccion = input("Ingrese la dirección del proveedor: ")
+        Despacho = input("Ingrese el lugar despacho: ")
+        Pago = input("Ingrese el pago realizado: ")
+                
+        consulta = "insert into Proveedor (Nombre, Direccion, Despacho, Pago) values(%s, %s, %s, %s)"
+        valores = (Nombre, Direccion, Despacho, Pago)
+        self.db.ejecutar_consulta(consulta, valores)
+        print("Proveedor ingresado exitosamente...")
 
     def baja_maquina(self):
+<<<<<<< HEAD
 
         consulta = "SELECT id_maquina, Nombre, Chasis FROM maquina"
         resultados = self.db.obtener_resultados(consulta)
@@ -263,12 +293,106 @@ class Menu:
         for maquina in resultados:
             print(maquina)
 
+=======
+        print("Para continuar debe seleccionar tipo de maquina a eliminar: ")
+        print("1. COSECHADORA")
+        print("2. TRACTOR")
+        print("3. CAMION")
+
+        seleccion = input("Ingrese seleccion: ")
+        if seleccion == '1':
+            tipo_maquina = 'COSECHADORA'
+        elif seleccion == '2':
+            tipo_maquina = 'TRACTOR'
+        elif seleccion == '3':
+            tipo_maquina = 'CAMION'
+        else:
+            print("Selección inválida.")
+            return
+
+        chasis = input("Ingrese codigo de chasis de la maquina a eliminar: ")
+
+        # A continuación confirma que la maquinaria existe antes de intentar eliminarla para evitar errores y visualizar
+        consulta_verificacion = "SELECT * FROM maquina WHERE Tipo_maquina = %s AND Chasis = %s"
+        valores_verificacion = (tipo_maquina, chasis)
+        resultado = self.db.obtener_resultados(consulta_verificacion, valores_verificacion)
+
+        if resultado:
+            confirmacion = input(f"¿Está seguro de que desea eliminar la maquinaria {tipo_maquina} con chasis {chasis}? `s` para CONFIRMAR, `n` CANCELAR: ")
+            if confirmacion.lower() == 's':
+                consulta_eliminacion = "DELETE FROM maquina WHERE Tipo_maquina = %s AND Chasis = %s"
+                valores_eliminacion = (tipo_maquina, chasis)
+                self.db.obtener_resultados(consulta_eliminacion, valores_eliminacion)
+                print("Maquinaria eliminada correctamente.")
+            else:
+                print("Operación cancelada.")
+        else:
+            print("No se encontró una maquinaria con el tipo y chasis proporcionados.")
+    
+>>>>>>> fb53d592a082a8b8315e2ae02ef01ddf49443a1d
 
     def baja_actividad(self):
-        print("poner consulta para borrar actividad")
-        
+        print("Para continuar debe seleccionar tipo de actividad a eliminar: ")
+        print("1. TRABAJO")
+        print("2. MANTENIMIENTO")
+
+        seleccion = input("Ingrese seleccion: ")
+        if seleccion == '1':
+            tipo_actividad = 'TRABAJO'
+        elif seleccion == '2':
+            tipo_actividad = 'MANTENIMIENTO'
+        else:
+            print("Selección inválida.")
+            return
+        descripcion_actividad = input("Ingrese la descripción de la actividad a eliminar: ")
+
+    # A continuación, confirma que la actividad existe antes de intentar eliminar para evitar errores y visualizar
+        consulta_verificacion = "SELECT * FROM actividad WHERE Tipo = %s AND Descripcion = %s"
+        valores_verificacion = (tipo_actividad, descripcion_actividad)
+        resultado = self.db.obtener_resultados(consulta_verificacion, valores_verificacion)
+
+        if resultado:
+            confirmacion = input(f"¿Está seguro de que desea eliminar la actividad {tipo_actividad} con descripción '{descripcion_actividad}'? `s` para CONFIRMAR, `n` para CANCELAR: ")
+            if confirmacion.lower() == 's':
+                consulta_eliminacion = "DELETE FROM actividad WHERE Tipo = %s AND Descripcion = %s"
+                valores_eliminacion = (tipo_actividad, descripcion_actividad)
+                self.db.obtener_resultados(consulta_eliminacion, valores_eliminacion)
+                print("Actividad eliminada correctamente.")
+            else:
+               print("Operación cancelada.")
+        else:
+            print("No se encontró una actividad con el tipo y descripción proporcionados.")
+            
     def baja_operario(self):
-        print("poner consulta para borrar operario")
+        print("Para continuar debe seleccionar tipo de operario: ")
+        print("1. CHOFER")
+        print("2. MECANICO")
+
+        seleccion = input("Ingrese seleccion: ")
+        if seleccion == '1':
+            categoria = 'CHOFER'
+        elif seleccion == '2':
+            categoria = 'MECANICO'
+
+        nombre = input("Ingrese nombre de operario: ")
+        apellido = input("Ingrese apellido del operario: ")
+        
+        # A continuación, confirma que el operario existe antes de intentar eliminar para evitar errores y visualizar
+        consulta_verificacion = "SELECT * FROM Operario WHERE nombre = %s AND apellido = %s"
+        valores_verificacion = (categoria, nombre, apellido)
+        resultado = self.db.obtener_resultados(consulta_verificacion, valores_verificacion)
+        if resultado:
+            confirmacion = input(f"¿Está seguro de que desea eliminar al operario {nombre} con descripción '{apellido}'? `s` para CONFIRMAR, `n` para CANCELAR: ")
+            if confirmacion.lower() == 's':
+                consulta_eliminacion = "DELETE FROM actividad WHERE Tipo = %s AND Descripcion = %s"
+                valores_eliminacion = (nombre, apellido)
+                self.db.obtener_resultados(consulta_eliminacion, valores_eliminacion)
+                print("Operario eliminado correctamente.")
+            else:
+               print("Operación cancelada.")
+        else:
+            print("No se encontró un operario con el nómbre y apellido proporcionados.")
+        
 
     def baja_repuesto(self):
         print("poner consulta para borrar repuesto")
