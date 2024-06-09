@@ -549,12 +549,13 @@ class Menu:
                     WHERE M.id_Maquina = A.Maquina_id_Maquina AND O.idOperario = A.Operario_idOperario"""
 
         resultados = self.db.obtener_resultados(consulta)
-        print("\nHistorial de Maquina:")
-        for i in resultados:
-            print(i)
-        #data = {'nombre': ['Juan', 'Maria', 'Pedro'], 
-        #'edad': [25, 30, 35]}
-        #df = pd.DataFrame(data)
+        if resultados:
+            print("\nHistorial de Máquina:")
+            # Convertir resultados a un DataFrame de pandas
+            df_historial = pd.DataFrame(resultados, columns=['id_Maquina', 'Nombre', 'Chasis', 'Tipo', 'Descripcion', 'Operario_Nombre', 'Operario_Apellido'])
+            print(df_historial.to_string(index=False))
+        else:
+            print(f"No se encontró historial para la máquina con id {hist_id}.")
 
 
     def historial_operario(self):
