@@ -536,9 +536,9 @@ class Menu:
         consulta = "SELECT id_maquina, Nombre, Chasis FROM maquina"
         resultados = self.db.obtener_resultados(consulta)
         if resultados:
-            print("\nLista actual de maquinas:")
-            for maquina in resultados:
-                print(maquina)
+            # Convertir resultados a un DataFrame de pandas
+            tabla_maquina = pd.DataFrame(resultados, columns=['id_Maquina', 'Nombre', 'Chasis'])
+            print(tabla_maquina.to_string(index=False, justify= 'center'))
         else:
             print("No se encontraron máquinas en la base de datos.")
 
@@ -553,7 +553,7 @@ class Menu:
             print("\nHistorial de Máquina:")
             # Convertir resultados a un DataFrame de pandas
             df_historial = pd.DataFrame(resultados, columns=['id_Maquina', 'Nombre', 'Chasis', 'Tipo', 'Descripcion', 'Operario_Nombre', 'Operario_Apellido'])
-            print(df_historial.to_string(index=False))
+            print(df_historial.to_string(index=False, justify= 'center'))
         else:
             print(f"No se encontró historial para la máquina con id {hist_id}.")
 
