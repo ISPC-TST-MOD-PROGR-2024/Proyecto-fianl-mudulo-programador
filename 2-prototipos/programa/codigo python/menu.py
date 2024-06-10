@@ -572,15 +572,15 @@ class Menu:
         JOIN Operario o ON a.Operario_idOperario = o.idOperario
         WHERE o.idOperario = %s
         """
-        valores = (id_operario,)
+        valores = (tuple(id_operario))
         resultados = self.db.obtener_resultados(consulta, valores)
         
         if resultados:
             print(f"\nHistorial de actividades para el operario ID {id_operario}:")
             for actividad in resultados:
-                print(f"Tipo: {actividad['Tipo']}, Descripción: {actividad['Descripcion']}, Lugar: {actividad['Lugar']}, "
-                      f"Límite de horas: {actividad['Limite_horas']}, Máquina: {actividad['Maquina']}, "
-                      f"Operario: {actividad['Operario']} {actividad['apellido']}")
+                print(f" Tipo: {actividad[0]},\nDescripción: {actividad[1]},\nLugar: {actividad[2]},\n"
+                      f"Límite de horas: {actividad[3]},\nMáquina: {actividad[4]},\n"
+                      f"Operario: {actividad[5]} {actividad[6]}\n")
         else:
             print(f"No se encontraron actividades para el operario ID {id_operario}.")
 
