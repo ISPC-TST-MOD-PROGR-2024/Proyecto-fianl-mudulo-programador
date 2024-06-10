@@ -593,8 +593,6 @@ class Menu:
         """        
         print("Generar consulta que muestre el stock de almacen y las cantidades limite")
         consulta = "SELECT * FROM almacen"
-        resultados = self.db.obtener_resultados(consulta)
-
         if resultados:
             print("\nInforme Almacen")
             # Convertir resultados a un DataFrame de pandas
@@ -646,7 +644,6 @@ class Menu:
         """ 
         print("generar una consulta para tirar estadisticas ")
         consulta = "SELECT tipo_maquina, COUNT(*) AS cantidad, AVG(horas_de_trabajo) AS promedio_horas FROM maquina GROUP BY tipo_maquina"
-        resultados = self.db.obtener_resultados(consulta)
 
         if resultados:
             print("\nInforme estadisticas generales")
@@ -659,7 +656,7 @@ class Menu:
  
     def alerta_mantenimiento(self, id_maquina):
         consulta = """
-        SELECT a.Descripcion, a.Limite_horas, a.Lugar, m.Horas_de_Trabajo
+        SELECT a.Descripcion, a.Limite_horas, m.Horas_de_Trabajo
         FROM actividad a
         JOIN maquina m ON a.Maquina_id_Maquina = m.id_Maquina
         WHERE m.id_Maquina = %s AND a.Limite_horas IS NOT NULL
@@ -672,38 +669,48 @@ class Menu:
                 print(f"Alerta: La máquina {id_maquina} ha alcanzado el límite de horas para la actividad '{actividad[0]}'.")
 
 
-    def alerta_almacen(self):
+    def alerta_almacen(self, id_almacen):
         consulta = """
-        SELECT Descripcion, Cantidad_Actual, Cantidad_Critica
-        FROM Almacen
-        WHERE Cantidad_Actual < Cantidad_Critica
+        SELECT r.Descripcion, r.Marca, r.Alternativo, c.Descripcion, c.Marca, c.Alternativo
+        FROM Repuesto r
+        LEFT JOIN Consumible c ON r.Almacen_id_Almacen = c.Almacen_id_Almacen
+        WHERE r.Almacen_id_Almacen = %s
         """
-        resultados = self.db.obtener_resultados(consulta)
+        valores = (id_almacen,)
+        resultados = self.db.obtener_resultados(consulta, valores)
 
-        if resultados:
-            print("Alerta: Insumos en cantidad crítica:")
-            for item in resultados:
-                print(f"{item[0]}: {item[1]} (Cantidad Crítica: {item[2]})")
+        for repuesto, consumible in resultados:
+            print(f"Repuesto - Descripción: {repuesto[0]}, Marca: {repuesto[1]}, Alternativo: {repuesto[2]}")
+            if consumible:
+               print(f"Consumible - Descripción: {consumible[0]}, Marca: {consumible[1]}, Alternativo: {consumible[2]}")
+
+    def compra_semanal(self):
+        consulta_repuesto = """
+        SELECT r.Descripcion, a.Cantidad_Critica - a.Cantidad_Actual as Cantidad_Reponer
+        FROM Repuesto r
+        JOIN Almacen a ON r.Almacen_id_Almacen = a.id_Almacen
+        WHERE a.Cantidad_Actual < a.Cantidad_Critica
+        """
+
+        consulta_consumible = """
+        SELECT c.Descripcion, a.Cantidad_Critica - a.Cantidad_Actual as Cantidad_Reponer
+        FROM Consumible c
+        JOIN Almacen a ON c.Almacen_id_Almacen = a.id_Almacen
+        WHERE a.Cantidad_Actual < a.Cantidad_Critica
+        """
+
+        resultados_repuesto = self.db.obtener_resultados(consulta_repuesto)
+        resultados_consumible = self.db.obtener_resultados(consulta_consumible)
+
+        if resultados_repuesto or resultados_consumible:
+           print("Reporte de compra semanal:")
+        for item in resultados_repuesto:
+           print(f"Repuesto - {item[0]}: {item[1]} unidades a reponer")
+        for item in resultados_consumible:
+           print(f"Consumible - {item[0]}: {item[1]} unidades a reponer")
         else:
-            print("No hay insumos en cantidad crítica.")
-
-
-    def compra_semanal(self): 
-        """
-# -----------------------------------------------------------------
-# Imprime un reporte semanal de compras para reponer stock de almacen en estado critico.
-# -----------------------------------------------------------------     
-        """ 
-        print("Generar consulta que devuelva lista de compra para reponer stock")
-
-
-
+            print("No hay insumos en estado crítico para reponer.")
 
     def salir(self): 
-        """
-# -----------------------------------------------------------------
-# Imprime mensaje de despedida antes de salir del programa.
-# -----------------------------------------------------------------     
-        """ 
-        print("Saliendo del programa...")
+        print("Saliendo del programa... Hasta luego! ")
 
