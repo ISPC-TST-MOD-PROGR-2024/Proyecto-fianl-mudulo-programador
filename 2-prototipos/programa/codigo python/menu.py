@@ -15,7 +15,10 @@ class Menu:
 # En caso de no haber coincidencia con ninguno, 
 # imprime un mensaje de error y aguarda nuevo ingreso.
 # ----------------------------------------------------------------
-        """        
+        """  
+        
+
+        self.alerta_mantenimiento()      
         while True:
             self.mostrar_menu()
             opcion = input("Seleccione una opción: ")
@@ -239,6 +242,19 @@ class Menu:
         print("Actividad ingresada correctamente.")
         
 
+## FUNCIÓN PARA DAR DE ALTA UN CODIGO DE ALMACEN
+##
+    def alta_almacen(self):
+        print("Se agregara stock a almacen, ingrese los siguientes datos:")
+        cantidad = input("Ingrese cantidad de articulos en stock: ")
+        critico = input("Ingrese la cantidad minima requerida: ")
+               
+        consulta = "insert into almacen  (stock, reserva) values(%s, %s)"
+        valores = (cantidad, critico)
+        self.db.ejecutar_consulta(consulta, valores)
+        print("Repuesto agregado exitosamente...")
+
+
 
 ## FUNCIÓN PARA DAR DE ALTA UN REPUESTO
 ##
@@ -249,6 +265,7 @@ class Menu:
         Alternativo = input("Ingrese la marca del repuesto alternativo: ")
         id_activad = input("Ingrese la actividad a realizar: ")
         id_proveedor = input("Ingrese el proveedor del repuesto: ")
+        self.alta_almacen()
         id_almacen = input("Ingrese el codigo interno del almacen: ")
         
         consulta = "insert into Repuesto  (Descripcion, Marca, Alternativo, Actividad_id_Actividad, Proveedor_id_Proveedor, Almacen_id_Almacen) values(%s, %s, %s, %s,%s,%s)"
@@ -266,6 +283,7 @@ class Menu:
         Alternativo = input("Ingrese la marca del consumible alternativo: ")
         id_activad = input("Ingrese la actividad a realizar: ")
         id_proveedor = input("Ingrese el proveedor del consumible: ")
+        self.alta_almacen()
         id_almacen = input("Ingrese el codigo interno del almacen: ")
         
         consulta = "insert into Consumible (Descripcion, Marca, Alternativo, Actividad_id_Actividad, Proveedor_id_Proveedor, Almacen_id_Almacen) values(%s, %s, %s, %s,%s,%s)"
@@ -563,7 +581,16 @@ class Menu:
 # ---------------------------------------------------------------------------------
 # Aquí el usuario podrá consultar las actividades realizadas por un operario 
 # --------------------------------------------------------------------------------- 
-# """        
+# """   
+        print("A continuación se detalla lista de operarios para mostrar su historial: ")
+        consulta = "SELECT idOperario, Nombre, Apellido FROM operario"
+        resultados = self.db.obtener_resultados(consulta)
+        if resultados:
+            # Convertir resultados a un DataFrame de pandas
+            tabla_maquina = pd.DataFrame(resultados, columns=['idOperario', 'Nombre', 'Apellido'])
+            print(tabla_maquina.to_string(index=False, justify= 'center'))
+        else:
+            print("No se encontraron máquinas en la base de datos.")     
         id_operario = input("Ingrese el ID del operario para consultar su historial: ")
         consulta = """
         SELECT a.Tipo, a.Descripcion, a.Lugar, a.Limite_horas, m.Nombre AS Maquina, o.nombre AS Operario, o.apellido
@@ -591,8 +618,9 @@ class Menu:
 # cantidad critica.
 # ---------------------------------------------------------------------------------         
         """        
-        print("Generar consulta que muestre el stock de almacen y las cantidades limite")
+        print("Informe de Almacen, reporte de stock y cantidades criticas")
         consulta = "SELECT * FROM almacen"
+        resultados = self.db.obtener_resultados(consulta)
         if resultados:
             print("\nInforme Almacen")
             # Convertir resultados a un DataFrame de pandas
@@ -600,6 +628,48 @@ class Menu:
             print(df_almacen.to_string(index=False, justify= 'center'))
         else:
             print("No se puede mostrar almacen, falta de datos.")
+
+
+    def alerta_mantenimiento(self, id_maquina):
+        """
+# ---------------------------------------------------------------------------------
+# Esta consulta chequea posibles tareas de mantenimiento para una maquina en particular
+# ---------------------------------------------------------------------------------         
+    """
+        consulta = """
+        SELECT a.Descripcion, a.Limite_horas, m.Horas_de_Trabajo, m.Nombre, m.chasis
+        FROM actividad a
+        JOIN maquina m ON a.Maquina_id_Maquina = m.id_Maquina
+        WHERE m.id_Maquina = %s AND a.Limite_horas IS NOT NULL
+        """
+        valores = (tuple(id_maquina))
+        resultados = self.db.obtener_resultados(consulta, valores)
+
+        for actividad in resultados:
+            if actividad[2] >= actividad[1]:
+                print(f"Alerta: La máquina {actividad[3]}, chasis {actividad[4]},\n ha alcanzado el límite de horas para la actividad '{actividad[0]}' ({actividad[1]}).")
+
+
+
+    def alerta_mantenimiento(self):
+        """
+# ---------------------------------------------------------------------------------
+# Esta consulta chequea posibles tareas de mantenimiento
+# ---------------------------------------------------------------------------------         
+    """
+        consulta = """
+        SELECT a.Descripcion, a.Limite_horas, m.Horas_de_Trabajo, m.Nombre, m.chasis
+        FROM actividad a
+        JOIN maquina m ON a.Maquina_id_Maquina = m.id_Maquina
+        WHERE a.Limite_horas IS NOT NULL AND a.Limite_horas > 0
+        """
+        resultados = self.db.obtener_resultados(consulta,)
+
+        for actividad in resultados:
+            if actividad[2] >= actividad[1]:
+                print(f"Alerta: La máquina {actividad[3]}, chasis {actividad[4]},\n ha alcanzado el límite de horas para la actividad '{actividad[0]}' ({actividad[1]}).")
+
+
 
     def carga_horas_diarias(self):
         """
@@ -621,18 +691,8 @@ class Menu:
         self.db.ejecutar_consulta(consulta_actualizar, valores_actualizar)
 
         # Verificar si se ha alcanzado el límite de horas para alguna actividad
-        consulta_actividad = """
-        SELECT a.Descripcion, a.Limite_horas, m.Horas_de_Trabajo 
-        FROM actividad a
-        JOIN maquina m ON a.Maquina_id_Maquina = m.id_Maquina
-        WHERE m.id_Maquina = %s AND a.Tipo = 'MANTENIMIENTO'
-        """
-        valores_actividad = (tuple(id_maquina))
-        actividades = self.db.obtener_resultados(consulta_actividad, valores_actividad)
-
-        for actividad in actividades:
-            if actividades[1] >= actividades[2]:
-                print(f"¡Alerta! La actividad de mantenimiento '{actividades[0]}' ha alcanzado el límite de horas ({actividades[1]}).")
+        print("chequeo si tienen actividad pendiente")
+        self.alerta_mantenimiento(id_maquina)
         
 
 
@@ -644,6 +704,7 @@ class Menu:
         """ 
         print("generar una consulta para tirar estadisticas ")
         consulta = "SELECT tipo_maquina, COUNT(*) AS cantidad, AVG(horas_de_trabajo) AS promedio_horas FROM maquina GROUP BY tipo_maquina"
+        resultados = self.db.obtener_resultados(consulta)
 
         if resultados:
             print("\nInforme estadisticas generales")
@@ -654,21 +715,7 @@ class Menu:
             print("No se puede mostrar estadisticas, falta de datos.")
 
  
-    def alerta_mantenimiento(self, id_maquina):
-        consulta = """
-        SELECT a.Descripcion, a.Limite_horas, m.Horas_de_Trabajo
-        FROM actividad a
-        JOIN maquina m ON a.Maquina_id_Maquina = m.id_Maquina
-        WHERE m.id_Maquina = %s AND a.Limite_horas IS NOT NULL
-        """
-        valores = (id_maquina)
-        resultados = self.db.obtener_resultados(consulta, valores)
-
-        for actividad in resultados:
-            if actividad[2] >= actividad[1]:
-                print(f"Alerta: La máquina {id_maquina} ha alcanzado el límite de horas para la actividad '{actividad[0]}'.")
-
-
+    
     def alerta_almacen(self, id_almacen):
         consulta = """
         SELECT r.Descripcion, r.Marca, r.Alternativo, c.Descripcion, c.Marca, c.Alternativo

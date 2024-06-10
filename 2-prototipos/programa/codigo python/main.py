@@ -5,6 +5,7 @@ from database import Database
 # Modulo Programador 2024
 # ISPC - Prof. Lisandro Lanfranco
 def main():
+    print("##################* SILVER AGRO *##################\n\n#################* FLOTA CONTROL *################\n\n")
         # Crear una instancia de la base de datos
     db = Database('localhost', 'root', 'root', 'mydb')
     
