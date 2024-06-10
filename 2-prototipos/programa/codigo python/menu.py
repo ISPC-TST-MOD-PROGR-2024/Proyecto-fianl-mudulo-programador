@@ -592,15 +592,16 @@ class Menu:
 # ---------------------------------------------------------------------------------         
         """        
         print("Generar consulta que muestre el stock de almacen y las cantidades limite")
-         consulta = "SELECT * FROM almacen"
-        resultados = self.db.ejecutar_consulta(consulta)
+        consulta = "SELECT * FROM almacen"
+        resultados = self.db.obtener_resultados(consulta)
 
-        print("\nInforme de Almacen:")
-        print(f"{'ID':<10}{'Descripción':<30}{'Cantidad':<10}{'Cantidad Crítica':<20}")
-        for fila in resultados:
-            id_almacen, descripcion, cantidad, cantidad_critica = fila
-            print(f"{id_almacen:<10}{descripcion:<30}{cantidad:<10}{cantidad_critica:<20}")
-
+        if resultados:
+            print("\nInforme Almacen")
+            # Convertir resultados a un DataFrame de pandas
+            df_almacen = pd.DataFrame(resultados, columns=['id_Almacen', 'stock', 'cantidad critica'])
+            print(df_almacen.to_string(index=False, justify= 'center'))
+        else:
+            print("No se puede mostrar almacen, falta de datos.")
 
     def carga_horas_diarias(self):
         """
@@ -628,12 +629,12 @@ class Menu:
         JOIN maquina m ON a.Maquina_id_Maquina = m.id_Maquina
         WHERE m.id_Maquina = %s AND a.Tipo = 'MANTENIMIENTO'
         """
-        valores_actividad = (id_maquina,)
+        valores_actividad = (tuple(id_maquina))
         actividades = self.db.obtener_resultados(consulta_actividad, valores_actividad)
 
         for actividad in actividades:
-            if actividad['Horas_de_Trabajo'] >= actividad['Limite_horas']:
-                print(f"¡Alerta! La actividad de mantenimiento '{actividad['Descripcion']}' ha alcanzado el límite de horas ({actividad['Limite_horas']}).")
+            if actividades[1] >= actividades[2]:
+                print(f"¡Alerta! La actividad de mantenimiento '{actividades[0]}' ha alcanzado el límite de horas ({actividades[1]}).")
         
 
 
@@ -644,15 +645,16 @@ class Menu:
 # ---------------------------------------------------------------------------------         
         """ 
         print("generar una consulta para tirar estadisticas ")
-         consulta = "SELECT tipo_maquina, COUNT(*) AS cantidad, AVG(horas_de_trabajo) AS promedio_horas FROM maquina GROUP BY tipo_maquina"
-        resultados = self.db.ejecutar_consulta(consulta)
+        consulta = "SELECT tipo_maquina, COUNT(*) AS cantidad, AVG(horas_de_trabajo) AS promedio_horas FROM maquina GROUP BY tipo_maquina"
+        resultados = self.db.obtener_resultados(consulta)
 
-        print("\nEstadísticas de Uso de Maquinaria:")
-        print(f"{'Tipo de Máquina':<20}{'Cantidad':<10}{'Promedio de Horas':<20}")
-        for fila in resultados:
-            tipo_maquina, cantidad, promedio_horas = fila
-            print(f"{tipo_maquina:<20}{cantidad:<10}{promedio_horas:<20}")
-
+        if resultados:
+            print("\nInforme estadisticas generales")
+            # Convertir resultados a un DataFrame de pandas
+            df_estad = pd.DataFrame(resultados, columns=['tipo_maquina', 'cantidad', 'promedio_horas'])
+            print(df_estad.to_string(index=False, justify= 'center'))
+        else:
+            print("No se puede mostrar estadisticas, falta de datos.")
 
  
     def alerta_mantenimiento(self, id_maquina):
