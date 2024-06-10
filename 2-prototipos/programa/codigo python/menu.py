@@ -576,7 +576,14 @@ class Menu:
 # ---------------------------------------------------------------------------------         
         """        
         print("Generar consulta que muestre el stock de almacen y las cantidades limite")
-        
+         consulta = "SELECT * FROM almacen"
+        resultados = self.db.ejecutar_consulta(consulta)
+
+        print("\nInforme de Almacen:")
+        print(f"{'ID':<10}{'Descripción':<30}{'Cantidad':<10}{'Cantidad Crítica':<20}")
+        for fila in resultados:
+            id_almacen, descripcion, cantidad, cantidad_critica = fila
+            print(f"{id_almacen:<10}{descripcion:<30}{cantidad:<10}{cantidad_critica:<20}")
 
 
     def carga_horas_diarias(self):
@@ -621,7 +628,14 @@ class Menu:
 # ---------------------------------------------------------------------------------         
         """ 
         print("generar una consulta para tirar estadisticas ")
-        
+         consulta = "SELECT tipo_maquina, COUNT(*) AS cantidad, AVG(horas_de_trabajo) AS promedio_horas FROM maquina GROUP BY tipo_maquina"
+        resultados = self.db.ejecutar_consulta(consulta)
+
+        print("\nEstadísticas de Uso de Maquinaria:")
+        print(f"{'Tipo de Máquina':<20}{'Cantidad':<10}{'Promedio de Horas':<20}")
+        for fila in resultados:
+            tipo_maquina, cantidad, promedio_horas = fila
+            print(f"{tipo_maquina:<20}{cantidad:<10}{promedio_horas:<20}")
 
 
  
